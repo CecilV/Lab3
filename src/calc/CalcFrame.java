@@ -22,13 +22,57 @@ public class CalcFrame extends javax.swing.JFrame {
     public CalcFrame() {
         initComponents();
     }
-        public String parseAll (String A){ 
-                StringTokenizer art = new StringTokenizer (A,"*/+-()^",true);
-                while (art.hasMoreTokens()){
-                    nums.push(art.nextToken());
+    
+    public void parseAll (String A){ //parse input 
+        if (!A.isEmpty()){
+            StringTokenizer art = new StringTokenizer (A,"*/+-()^",true);
+            while (art.hasMoreTokens()){
+                nums.push(art.nextToken());
+            }//while loop
+        }else {
+            nums.push("Enter Vallid Input");
+           
+        }//if statement
+    }//parseAll
+    
+    public void postFix(){
+        Stack<Double> post = new Stack<Double>(); 
+        while (!nums.isEmpty()){
+            for (int i = 0; i< nums.capacity();i++){
+                double a = 0; 
+                double b = 0; 
+                double res = 0; 
+                char curIn = nums.pop().charAt(0);
+                if (Character.isDigit(curIn)){
+                    double temp = Character.getNumericValue(curIn);
+                    post.push(temp);
+                
+                }else if(curIn == '+'){
+                    a = post.pop();
+                    b = post.pop();
+                    post.push(a+b);
+                }else if(curIn == '-'){
+                    a = post.pop();
+                    b = post.pop();
+                    post.push(a-b);
+                }else if(curIn == '^'){
+                    a = post.pop();
+                    b = post.pop();
+                    post.push(Math.pow(a, b));
+                }else if(curIn == '*'){
+                    a = post.pop();
+                    b = post.pop();
+                    post.push(a*b);
+                }else if(curIn == '/'){
+                    a = post.pop();
+                    b = post.pop();
+                    post.push(a/b);
                 }
-                return nums.firstElement();
+            }
         }
+        double result = post.pop(); 
+        System.out.print(result);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -396,7 +440,8 @@ public class CalcFrame extends javax.swing.JFrame {
     private void EqButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EqButtActionPerformed
         // TODO add your handling code here:
         parseAll(Result.getText());
-        Result.setText("");
+        postFix();
+        Result.setText(nums.toString());
     }//GEN-LAST:event_EqButtActionPerformed
 
     /**
