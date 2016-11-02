@@ -124,9 +124,15 @@
   <SubComponents>
     <Component class="javax.swing.JTextField" name="Result">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="selectionColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="cc" green="0" red="cc" type="rgb"/>
+        </Property>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
+      </AccessibilityProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ResultActionPerformed"/>
       </Events>
@@ -207,6 +213,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="("/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LPanActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="Num0">
       <Properties>
@@ -220,31 +229,52 @@
       <Properties>
         <Property name="text" type="java.lang.String" value=")"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RPantActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="AddButt">
       <Properties>
         <Property name="text" type="java.lang.String" value="+"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddButtActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="MinusButt">
       <Properties>
         <Property name="text" type="java.lang.String" value="-"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MinusButtActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="MultButt">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="14" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="*"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MultButtActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="DivideButt">
       <Properties>
         <Property name="text" type="java.lang.String" value="/"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DivideButtActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ExpButt">
       <Properties>
         <Property name="text" type="java.lang.String" value="^"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ExpButtActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ClearButt">
       <Properties>
@@ -258,6 +288,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="="/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EqButtActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

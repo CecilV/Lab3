@@ -5,20 +5,30 @@
  */
 package calc;
 
+import java.util.Stack;
+import java.util.StringTokenizer;
+
 /**
  *
  * @author cs427001_23
  */
 public class CalcFrame extends javax.swing.JFrame {
-     
     
+    Stack<String> nums = new Stack<String> (); 
+    String B =""; 
     /**
      * Creates new form CalcFrame
      */
     public CalcFrame() {
         initComponents();
     }
-
+        public String parseAll (String A){ 
+                StringTokenizer art = new StringTokenizer (A,"*/+-()^",true);
+                while (art.hasMoreTokens()){
+                    nums.push(art.nextToken());
+                }
+                return nums.firstElement();
+        }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,8 +61,9 @@ public class CalcFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        Result.setText("jTextField1");
+        Result.setEditable(false);
         Result.setToolTipText("");
+        Result.setSelectionColor(new java.awt.Color(204, 0, 204));
         Result.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ResultActionPerformed(evt);
@@ -123,6 +134,11 @@ public class CalcFrame extends javax.swing.JFrame {
         });
 
         LPan.setText("(");
+        LPan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LPanActionPerformed(evt);
+            }
+        });
 
         Num0.setText("0");
         Num0.addActionListener(new java.awt.event.ActionListener() {
@@ -132,16 +148,47 @@ public class CalcFrame extends javax.swing.JFrame {
         });
 
         RPant.setText(")");
+        RPant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RPantActionPerformed(evt);
+            }
+        });
 
         AddButt.setText("+");
+        AddButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddButtActionPerformed(evt);
+            }
+        });
 
         MinusButt.setText("-");
+        MinusButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MinusButtActionPerformed(evt);
+            }
+        });
 
+        MultButt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         MultButt.setText("*");
+        MultButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MultButtActionPerformed(evt);
+            }
+        });
 
         DivideButt.setText("/");
+        DivideButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DivideButtActionPerformed(evt);
+            }
+        });
 
         ExpButt.setText("^");
+        ExpButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExpButtActionPerformed(evt);
+            }
+        });
 
         ClearButt.setText("C");
         ClearButt.addActionListener(new java.awt.event.ActionListener() {
@@ -151,6 +198,11 @@ public class CalcFrame extends javax.swing.JFrame {
         });
 
         EqButt.setText("=");
+        EqButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EqButtActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -241,19 +293,21 @@ public class CalcFrame extends javax.swing.JFrame {
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {LPan, Num0, Num1, Num2, Num3, Num4, Num5, Num6, Num7, Num8, Num9, RPant});
 
+        Result.getAccessibleContext().setAccessibleName("");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void Num7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num7ActionPerformed
         // TODO add your handling code here:\
-       Result.setText("7");
+       Result.setText(Result.getText()+"7");
+       
     }//GEN-LAST:event_Num7ActionPerformed
 
     private void ResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResultActionPerformed
         // TODO add your handling code here:
-        Result.setText(String.valueOf(result));
     }//GEN-LAST:event_ResultActionPerformed
-
+    
     private void ClearButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButtActionPerformed
         // TODO add your handling code here:
         Result.setText("");
@@ -261,48 +315,89 @@ public class CalcFrame extends javax.swing.JFrame {
 
     private void Num8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num8ActionPerformed
         // TODO add your handling code here:
-        Result.setText("8");
+        Result.setText(Result.getText()+"8");
     }//GEN-LAST:event_Num8ActionPerformed
 
     private void Num9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num9ActionPerformed
         // TODO add your handling code here:
-        Result.setText("9");
+        Result.setText(Result.getText()+"9");
     }//GEN-LAST:event_Num9ActionPerformed
 
     private void Num4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num4ActionPerformed
         // TODO add your handling code here:
-        Result.setText("4");
+        Result.setText(Result.getText()+"4");
     }//GEN-LAST:event_Num4ActionPerformed
 
     private void Num5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num5ActionPerformed
         // TODO add your handling code here:
-        Result.setText("5");
+        Result.setText(Result.getText()+"5");
     }//GEN-LAST:event_Num5ActionPerformed
 
     private void Num6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num6ActionPerformed
         // TODO add your handling code here:
-        Result.setText("6");
+        Result.setText(Result.getText()+"6");
     }//GEN-LAST:event_Num6ActionPerformed
 
     private void Num1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num1ActionPerformed
         // TODO add your handling code here:
-        Result.setText("1");
+        Result.setText(Result.getText()+"1");
     }//GEN-LAST:event_Num1ActionPerformed
 
     private void Num2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num2ActionPerformed
         // TODO add your handling code here:
-        Result.setText("2");
+        Result.setText(Result.getText()+"2");
     }//GEN-LAST:event_Num2ActionPerformed
 
     private void Num3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num3ActionPerformed
         // TODO add your handling code here:
-        Result.setText("3");
+        Result.setText(Result.getText()+"3");
     }//GEN-LAST:event_Num3ActionPerformed
 
     private void Num0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num0ActionPerformed
         // TODO add your handling code here:
-        Result.setText("0");
+        Result.setText(Result.getText()+"0");
     }//GEN-LAST:event_Num0ActionPerformed
+
+    private void AddButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtActionPerformed
+        // TODO add your handling code here:
+       Result.setText(Result.getText()+ "+");
+    }//GEN-LAST:event_AddButtActionPerformed
+
+    private void MinusButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MinusButtActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "-");
+    }//GEN-LAST:event_MinusButtActionPerformed
+
+    private void MultButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MultButtActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "*");
+    }//GEN-LAST:event_MultButtActionPerformed
+
+    private void DivideButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DivideButtActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "/");
+    }//GEN-LAST:event_DivideButtActionPerformed
+
+    private void ExpButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExpButtActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "^");
+    }//GEN-LAST:event_ExpButtActionPerformed
+
+    private void LPanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LPanActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "(");
+    }//GEN-LAST:event_LPanActionPerformed
+
+    private void RPantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RPantActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ ")");
+    }//GEN-LAST:event_RPantActionPerformed
+
+    private void EqButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EqButtActionPerformed
+        // TODO add your handling code here:
+        parseAll(Result.getText());
+        Result.setText("");
+    }//GEN-LAST:event_EqButtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -337,6 +432,8 @@ public class CalcFrame extends javax.swing.JFrame {
                 new CalcFrame().setVisible(true);
             }
         });
+        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -361,5 +458,5 @@ public class CalcFrame extends javax.swing.JFrame {
     private javax.swing.JButton RPant;
     private javax.swing.JTextField Result;
     // End of variables declaration//GEN-END:variables
- double result = 0; 
+
 }
