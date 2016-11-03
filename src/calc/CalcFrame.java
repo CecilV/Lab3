@@ -15,9 +15,8 @@ import java.util.StringTokenizer;
  */
 public class CalcFrame extends javax.swing.JFrame {
     
-    Stack<String> nums = new Stack<String> (); 
+     
     ArrayList<String> postNums = new ArrayList<String>(); 
-    String B =""; 
     /**
      * Creates new form CalcFrame
      */
@@ -38,29 +37,32 @@ public class CalcFrame extends javax.swing.JFrame {
         }//if else 
     }//aOper
     
-    public boolean opPrecedence (char x, char y){
-        
-        switch (x){
+    public boolean opPrecedence (char x, char y){ //setting precednece
+       
+        switch (x){//set presedence 
             case '+':
+                return !( y == '+' || y == '-');
             case '-':
-                return !(y == '+'|| y == '-');
+                return !( y == '+' || y == '-');
             case '*':
+                return (y == '^' || y == '(');
             case '/':
-                return y == '^' || y == '(';
+                return (y == '^' || y == '(');
             case '^':
-                return y == '('; 
+                return (y == '('); 
             case '(':
                 return true; 
             default: 
                 return false; 
-        }
+        }//switch 
     }//opPresedence
     
     public CalcFrame() {
         initComponents();
     }
     
-    public String parseAll (String input){ //parse input 
+    public String parseAll (String input){ //parse input into postfix
+        Stack<String> nums = new Stack<String> ();
         if (!input.isEmpty()){
             char c; 
             StringTokenizer art = new StringTokenizer (input,"*/+-()^",true);
@@ -68,7 +70,7 @@ public class CalcFrame extends javax.swing.JFrame {
                 
                String current = art.nextToken();
                c = current.charAt(0);
-               //nums.push(current);
+               
                if (( current.length()==1) && aOper(c)){
                    
                    while(!nums.empty() && 
@@ -80,12 +82,10 @@ public class CalcFrame extends javax.swing.JFrame {
                         while (op.charAt(0)!= '('){
                             op = (String)nums.pop();
                             postNums.add(op);
-                        }
+                        }//while
                     }else {
                        nums.push(current); 
-                    }
-                        
-               }else if ((current.length()!=1) && c == ' '  ){
+                    }//if
                } else {
           
                    postNums.add(current);
@@ -108,9 +108,8 @@ public class CalcFrame extends javax.swing.JFrame {
     }//parseAll
 
     
-    public void postFix(ArrayList input){ //post fix
+    public void postFix(ArrayList input){ //postfix arthmetic
         Stack<Double> post = new Stack<Double>(); 
-        //while (!input.isEmpty()){
             for (int i = 0; i < input.size();i++){
                 double a = 0; 
                 double b = 0;  
@@ -128,7 +127,7 @@ public class CalcFrame extends javax.swing.JFrame {
                         case "-":
                             a = post.pop();
                             b = post.pop();
-                            post.push(a-b);  
+                            post.push(b-a);  
                             break;
                         case"^":
                             a = post.pop();
@@ -143,14 +142,13 @@ public class CalcFrame extends javax.swing.JFrame {
                         case"/":
                             a = post.pop();
                             b = post.pop();
-                            post.push(a/b);  
+                            post.push(b/a);  
                             break;
                         default:
                             break;
                     }//switch 
                 }//if
             } //System.out.print(post); 
-        //}
         double res = post.pop(); 
         System.out.print("Result:"+res);
         Result.setText(String.valueOf(res));
@@ -189,6 +187,7 @@ public class CalcFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Result.setEditable(false);
+        Result.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Result.setToolTipText("");
         Result.setSelectionColor(new java.awt.Color(204, 0, 204));
         Result.addActionListener(new java.awt.event.ActionListener() {
@@ -526,11 +525,8 @@ public class CalcFrame extends javax.swing.JFrame {
         System.out.println(Result.getText());
         parseAll(Result.getText());
         }catch (Exception e){
-            Result.setText(e.toString());
+            Result.setText("Please input valid problem.");
         }
-        //System.out.println(nums.toString()+"after parse");
-        //postFix();
-        //Result.setText(nums.toString());
     }//GEN-LAST:event_EqButtActionPerformed
 
     /**
