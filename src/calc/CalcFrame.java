@@ -5,6 +5,7 @@
  */
 package calc;
 
+import java.util.ArrayList;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -15,7 +16,7 @@ import java.util.StringTokenizer;
 public class CalcFrame extends javax.swing.JFrame {
     
     Stack<String> nums = new Stack<String> (); 
-    Stack<String> postNums = new Stack<String>(); 
+    ArrayList<String> postNums = new ArrayList<String>(); 
     String B =""; 
     /**
      * Creates new form CalcFrame
@@ -62,8 +63,6 @@ public class CalcFrame extends javax.swing.JFrame {
     public String parseAll (String input){ //parse input 
         if (!input.isEmpty()){
             char c; 
-            String test ="";
-            StringBuffer b = new StringBuffer (input.length());
             StringTokenizer art = new StringTokenizer (input,"*/+-()^",true);
             while (art.hasMoreTokens()){
                 
@@ -73,17 +72,14 @@ public class CalcFrame extends javax.swing.JFrame {
                if (( current.length()==1) && aOper(c)){
                    
                    while(!nums.empty() && 
-                           !opPrecedence(((String)nums.peek()).charAt(0),c)){
-                       test = (String)nums.pop(); 
-                       b.append(" ").append(test);
-                       postNums.push(test);
+                        !opPrecedence(((String)nums.peek()).charAt(0),c)){
+                        postNums.add((String)nums.pop());
                    }
                     if (c == ')'){
                         String op = (String)nums.pop(); 
                         while (op.charAt(0)!= '('){
-                            b.append(" ").append(op);
                             op = (String)nums.pop();
-                            postNums.push(op);
+                            postNums.add(op);
                         }
                     }else {
                        nums.push(current); 
@@ -91,21 +87,18 @@ public class CalcFrame extends javax.swing.JFrame {
                         
                }else if ((current.length()!=1) && c == ' '  ){
                } else {
-                   
-                   b.append(" ").append(current); 
-                   postNums.push(current);
+          
+                   postNums.add(current);
                }// if 
                //System.out.println(nums.size()+"size");
             }//while loop
             
             while (!nums.empty()){
-                test = (String)nums.pop(); 
-                b.append(" ").append(test);
-                postNums.push(test);
+                postNums.add((String)nums.pop());
             }
             System.out.println(postNums);
             postFix(postNums); 
-            return b.toString( );
+            return postNums.toString( );
         }else {
             nums.push("Enter Vallid Input");
             return nums.pop(); 
@@ -115,45 +108,53 @@ public class CalcFrame extends javax.swing.JFrame {
     }//parseAll
 
     
-    public void postFix(Stack input){ //post fix
-        System.out.println(input);
+    public void postFix(ArrayList input){ //post fix
         Stack<Double> post = new Stack<Double>(); 
-        while (!input.isEmpty()){
+        //while (!input.isEmpty()){
             for (int i = 0; i < input.size();i++){
                 double a = 0; 
                 double b = 0;  
-                String curIn = input.pop().toString();
+                String curIn = input.get(i).toString();
                 if (isDouble(curIn)){
                     double temp = Double.parseDouble(curIn);
-                    System.out.println(temp);
                     post.push(temp);
-                
-                }else if(curIn.equals("+")){
-                    a = post.pop();
-                    b = post.pop();
-                    post.push(a+b);
-                }else if(curIn.equals("-")){
-                    a = post.pop();
-                    b = post.pop();
-                    post.push(a-b);
-                }else if(curIn.equals("^")){
-                    a = post.pop();
-                    b = post.pop();
-                    post.push(Math.pow(a, b));
-                }else if(curIn.equals("*")){
-                    a = post.pop();
-                    b = post.pop();
-                    post.push(a*b);
-                }else if(curIn.equals("/")){
-                    a = post.pop();
-                    b = post.pop();
-                    post.push(a/b);
                 }else{
-                }
+                    switch (curIn){
+                        case"+":
+                             a = post.pop();
+                             b = post.pop();
+                             post.push(a+b);
+                             break;
+                        case "-":
+                            a = post.pop();
+                            b = post.pop();
+                            post.push(a-b);  
+                            break;
+                        case"^":
+                            a = post.pop();
+                            b = post.pop();
+                            post.push(Math.pow(b, a)); 
+                            break;
+                        case"*":
+                            a = post.pop();
+                            b = post.pop();
+                            post.push(a*b); 
+                            break;
+                        case"/":
+                            a = post.pop();
+                            b = post.pop();
+                            post.push(a/b);  
+                            break;
+                        default:
+                            break;
+                    }//switch 
+                }//if
             } //System.out.print(post); 
-        }
+        //}
         double res = post.pop(); 
-        System.out.print(res+"a");
+        System.out.print("Result:"+res);
+        Result.setText(String.valueOf(res));
+        postNums.clear();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -521,11 +522,15 @@ public class CalcFrame extends javax.swing.JFrame {
 
     private void EqButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EqButtActionPerformed
         // TODO add your handling code here:
+        try{
         System.out.println(Result.getText());
         parseAll(Result.getText());
-        System.out.println(nums.toString()+"after parse");
+        }catch (Exception e){
+            Result.setText(e.toString());
+        }
+        //System.out.println(nums.toString()+"after parse");
         //postFix();
-        Result.setText(nums.toString());
+        //Result.setText(nums.toString());
     }//GEN-LAST:event_EqButtActionPerformed
 
     /**
