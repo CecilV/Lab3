@@ -15,63 +15,145 @@ import java.util.StringTokenizer;
 public class CalcFrame extends javax.swing.JFrame {
     
     Stack<String> nums = new Stack<String> (); 
+    Stack<String> postNums = new Stack<String>(); 
     String B =""; 
     /**
      * Creates new form CalcFrame
      */
+    public boolean isDouble(String input){
+        try{
+            Double.parseDouble(input);
+            return true;
+        } catch (Exception e){
+            return false; 
+    }
+    }    
+    public boolean aOper(char c){ // check to see if operator 
+        if (c == '+'||c == '-'||c == '*'||c == '/'||c == '^'||
+               c == '('||c == ')'){
+            return true;
+        }else {
+            return false;
+        }//if else 
+    }//aOper
+    
+    public boolean opPrecedence (char x, char y){
+        
+        switch (x){
+            case '+':
+            case '-':
+                return !(y == '+'|| y == '-');
+            case '*':
+            case '/':
+                return y == '^' || y == '(';
+            case '^':
+                return y == '('; 
+            case '(':
+                return true; 
+            default: 
+                return false; 
+        }
+    }//opPresedence
+    
     public CalcFrame() {
         initComponents();
     }
     
-    public void parseAll (String A){ //parse input 
-        if (!A.isEmpty()){
-            StringTokenizer art = new StringTokenizer (A,"*/+-()^",true);
+    public String parseAll (String input){ //parse input 
+        if (!input.isEmpty()){
+            char c; 
+            String test ="";
+            StringBuffer b = new StringBuffer (input.length());
+            StringTokenizer art = new StringTokenizer (input,"*/+-()^",true);
             while (art.hasMoreTokens()){
-                nums.push(art.nextToken());
+                
+               String current = art.nextToken();
+               c = current.charAt(0);
+               //nums.push(current);
+               if (( current.length()==1) && aOper(c)){
+                   
+                   while(!nums.empty() && 
+                           !opPrecedence(((String)nums.peek()).charAt(0),c)){
+                       test = (String)nums.pop(); 
+                       b.append(" ").append(test);
+                       postNums.push(test);
+                   }
+                    if (c == ')'){
+                        String op = (String)nums.pop(); 
+                        while (op.charAt(0)!= '('){
+                            b.append(" ").append(op);
+                            op = (String)nums.pop();
+                            postNums.push(op);
+                        }
+                    }else {
+                       nums.push(current); 
+                    }
+                        
+               }else if ((current.length()!=1) && c == ' '  ){
+               } else {
+                   
+                   b.append(" ").append(current); 
+                   postNums.push(current);
+               }// if 
+               //System.out.println(nums.size()+"size");
             }//while loop
+            
+            while (!nums.empty()){
+                test = (String)nums.pop(); 
+                b.append(" ").append(test);
+                postNums.push(test);
+            }
+            System.out.println(postNums);
+            postFix(postNums); 
+            return b.toString( );
         }else {
             nums.push("Enter Vallid Input");
+            return nums.pop(); 
            
         }//if statement
+        
     }//parseAll
+
     
-    public void postFix(){
+    public void postFix(Stack input){ //post fix
+        System.out.println(input);
         Stack<Double> post = new Stack<Double>(); 
-        while (!nums.isEmpty()){
-            for (int i = 0; i< nums.capacity();i++){
+        while (!input.isEmpty()){
+            for (int i = 0; i < input.size();i++){
                 double a = 0; 
-                double b = 0; 
-                double res = 0; 
-                char curIn = nums.pop().charAt(0);
-                if (Character.isDigit(curIn)){
-                    double temp = Character.getNumericValue(curIn);
+                double b = 0;  
+                String curIn = input.pop().toString();
+                if (isDouble(curIn)){
+                    double temp = Double.parseDouble(curIn);
+                    System.out.println(temp);
                     post.push(temp);
                 
-                }else if(curIn == '+'){
+                }else if(curIn.equals("+")){
                     a = post.pop();
                     b = post.pop();
                     post.push(a+b);
-                }else if(curIn == '-'){
+                }else if(curIn.equals("-")){
                     a = post.pop();
                     b = post.pop();
                     post.push(a-b);
-                }else if(curIn == '^'){
+                }else if(curIn.equals("^")){
                     a = post.pop();
                     b = post.pop();
                     post.push(Math.pow(a, b));
-                }else if(curIn == '*'){
+                }else if(curIn.equals("*")){
                     a = post.pop();
                     b = post.pop();
                     post.push(a*b);
-                }else if(curIn == '/'){
+                }else if(curIn.equals("/")){
                     a = post.pop();
                     b = post.pop();
                     post.push(a/b);
+                }else{
                 }
-            }
+            } //System.out.print(post); 
         }
-        double result = post.pop(); 
-        System.out.print(result);
+        double res = post.pop(); 
+        System.out.print(res+"a");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -439,8 +521,10 @@ public class CalcFrame extends javax.swing.JFrame {
 
     private void EqButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EqButtActionPerformed
         // TODO add your handling code here:
+        System.out.println(Result.getText());
         parseAll(Result.getText());
-        postFix();
+        System.out.println(nums.toString()+"after parse");
+        //postFix();
         Result.setText(nums.toString());
     }//GEN-LAST:event_EqButtActionPerformed
 
