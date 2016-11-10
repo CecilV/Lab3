@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Cecilio Valle 
+ * CS480
+ * Lab 3
  */
 package calc;
 
@@ -15,22 +15,26 @@ import java.util.StringTokenizer;
  */
 public class CalcFrame extends javax.swing.JFrame {
     
+
      
-    ArrayList<String> postNums = new ArrayList<String>(); 
+    ArrayList<String> postNums = new ArrayList<>(); 
     /**
      * Creates new form CalcFrame
+     * @param input
+     * @return 
      */
     public boolean isDouble(String input){
         try{
             Double.parseDouble(input);
             return true;
-        } catch (Exception e){
+        } catch (NumberFormatException e){
             return false; 
     }
     }    
     public boolean aOper(char c){ // check to see if operator 
         if (c == '+'||c == '-'||c == '*'||c == '/'||c == '^'||
-               c == '('||c == ')'){
+            c == '('||c == ')'||c == '['||c == ']'||c == '{'
+            ||c == '}'||c == 's'||c == 'c'||c == 't'){
             return true;
         }else {
             return false;
@@ -41,15 +45,21 @@ public class CalcFrame extends javax.swing.JFrame {
        
         switch (x){//set presedence 
             case '+':
-                return !( y == '+' || y == '-');
             case '-':
                 return !( y == '+' || y == '-');
             case '*':
-                return (y == '^' || y == '(');
             case '/':
-                return (y == '^' || y == '(');
+                return !(y == '*' || y == '/');
+            case 's':
+            case 'c':
+            case 't':
+                return (y == '^' || y == '{');
             case '^':
-                return (y == '('); 
+                return (y == '{'); 
+            case '{':
+                return true; 
+            case '[':
+                return true; 
             case '(':
                 return true; 
             default: 
@@ -64,28 +74,54 @@ public class CalcFrame extends javax.swing.JFrame {
     public String parseAll (String input){ //parse input into postfix
         Stack<String> nums = new Stack<String> ();
         if (!input.isEmpty()){
-            char c; 
-            StringTokenizer art = new StringTokenizer (input,"*/+-()^",true);
+            char myChar; 
+            StringTokenizer art = new StringTokenizer (input,"+-*/()^[]{}sct",true);
             while (art.hasMoreTokens()){
                 
                String current = art.nextToken();
-               c = current.charAt(0);
+               myChar = current.charAt(0);
                
-               if (( current.length()==1) && aOper(c)){
+               if (( current.length()==1) && aOper(myChar)){
                    
                    while(!nums.empty() && 
-                        !opPrecedence(((String)nums.peek()).charAt(0),c)){
+                        !opPrecedence(((String)nums.peek()).charAt(0),myChar))
                         postNums.add((String)nums.pop());
+                   
+                   switch (myChar) {
+                       case ')':
+                           {
+                               String op;
+                               op = (String)nums.pop();
+                               while (op.charAt(0)!= '('){
+                                   postNums.add(op);
+                                   op = (String)nums.pop();
+                               }//while
+                               break;
+                           }
+                       case '}':
+                           {
+                               String op;
+                               op = (String)nums.pop();
+                               while (op.charAt(0)!= '{'){
+                                   postNums.add(op);
+                                   op = (String)nums.pop();
+                               }//while
+                               break;
+                           }
+                       case ']':
+                           {
+                               String op;
+                               op = (String)nums.pop();
+                               while (op.charAt(0)!= '['){
+                                   postNums.add(op);
+                                   op = (String)nums.pop();
+                               }//while
+                               break;
+                           }
+                       default:
+                           nums.push(current);
+                           break; //if
                    }
-                    if (c == ')'){
-                        String op = (String)nums.pop(); 
-                        while (op.charAt(0)!= '('){
-                            op = (String)nums.pop();
-                            postNums.add(op);
-                        }//while
-                    }else {
-                       nums.push(current); 
-                    }//if
                } else {
           
                    postNums.add(current);
@@ -93,13 +129,13 @@ public class CalcFrame extends javax.swing.JFrame {
                //System.out.println(nums.size()+"size");
             }//while loop
             
-            while (!nums.empty()){
+            while (!nums.empty())
                 postNums.add((String)nums.pop());
-            }
+            
             System.out.println(postNums);
             postFix(postNums); 
             return postNums.toString( );
-        }else {
+        }else{
             nums.push("Enter Vallid Input");
             return nums.pop(); 
            
@@ -109,7 +145,7 @@ public class CalcFrame extends javax.swing.JFrame {
 
     
     public void postFix(ArrayList input){ //postfix arthmetic
-        Stack<Double> post = new Stack<Double>(); 
+        Stack<Double> post = new Stack<>(); 
             for (int i = 0; i < input.size();i++){
                 double a = 0; 
                 double b = 0;  
@@ -119,6 +155,18 @@ public class CalcFrame extends javax.swing.JFrame {
                     post.push(temp);
                 }else{
                     switch (curIn){
+                        case "s":
+                            a = Math.toRadians(post.pop());
+                            post.push(Math.sin(a));
+                            break;
+                        case "c":
+                            a = Math.toRadians(post.pop());
+                            post.push(Math.cos(a));
+                            break;
+                        case "t":
+                            a = Math.toRadians(post.pop());
+                            post.push(Math.tan(a)); 
+                            break;
                         case"+":
                              a = post.pop();
                              b = post.pop();
@@ -183,6 +231,13 @@ public class CalcFrame extends javax.swing.JFrame {
         ExpButt = new javax.swing.JButton();
         ClearButt = new javax.swing.JButton();
         EqButt = new javax.swing.JButton();
+        lBrac = new javax.swing.JButton();
+        rBrac = new javax.swing.JButton();
+        lCurl = new javax.swing.JButton();
+        rCurl = new javax.swing.JButton();
+        sinBut = new javax.swing.JButton();
+        cosBut = new javax.swing.JButton();
+        tanBut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -330,57 +385,123 @@ public class CalcFrame extends javax.swing.JFrame {
             }
         });
 
+        lBrac.setText("[");
+        lBrac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lBracActionPerformed(evt);
+            }
+        });
+
+        rBrac.setText("]");
+        rBrac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rBracActionPerformed(evt);
+            }
+        });
+
+        lCurl.setText("{");
+        lCurl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lCurlActionPerformed(evt);
+            }
+        });
+
+        rCurl.setText("}");
+        rCurl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rCurlActionPerformed(evt);
+            }
+        });
+
+        sinBut.setText("sin");
+        sinBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sinButActionPerformed(evt);
+            }
+        });
+
+        cosBut.setText("cos");
+        cosBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cosButActionPerformed(evt);
+            }
+        });
+
+        tanBut.setText("tan");
+        tanBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tanButActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(Result, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(LPan, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Num0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Num1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Num2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Num4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Num5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Num7, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Num8, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(Result, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lBrac, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Num9, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
-                            .addComponent(Num3, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
-                            .addComponent(Num6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(RPant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(rBrac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(AddButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(MultButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(ExpButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(DivideButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(ClearButt, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-                                    .addComponent(MinusButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(EqButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(lCurl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rCurl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(sinBut)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cosBut)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tanBut))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Num7, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Num8, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(Num9, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(AddButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(MinusButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Num4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Num5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(Num6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(MultButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(DivideButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Num1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Num2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(Num3, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(ExpButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(ClearButt, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(LPan, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Num0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(RPant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(EqButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {LPan, Num0, Num1, Num2, Num3, Num4, Num5, Num6, Num7, Num8, Num9, RPant});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {AddButt, ClearButt, DivideButt, ExpButt, MinusButt, MultButt});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lBrac, lCurl, rBrac, rCurl});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,10 +535,23 @@ public class CalcFrame extends javax.swing.JFrame {
                     .addComponent(Num0, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
                     .addComponent(RPant, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
                     .addComponent(EqButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lBrac, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rBrac, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lCurl, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rCurl, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sinBut)
+                    .addComponent(cosBut)
+                    .addComponent(tanBut))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {LPan, Num0, Num1, Num2, Num3, Num4, Num5, Num6, Num7, Num8, Num9, RPant});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lBrac, lCurl, rBrac, rCurl});
 
         Result.getAccessibleContext().setAccessibleName("");
 
@@ -437,6 +571,7 @@ public class CalcFrame extends javax.swing.JFrame {
     private void ClearButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButtActionPerformed
         // TODO add your handling code here:
         Result.setText("");
+        postNums.clear();
     }//GEN-LAST:event_ClearButtActionPerformed
 
     private void Num8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Num8ActionPerformed
@@ -526,8 +661,45 @@ public class CalcFrame extends javax.swing.JFrame {
         parseAll(Result.getText());
         }catch (Exception e){
             Result.setText("Please input valid problem.");
+            postNums.clear();
+            //Result.setText("");
         }
     }//GEN-LAST:event_EqButtActionPerformed
+
+    private void rCurlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rCurlActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "}");
+    }//GEN-LAST:event_rCurlActionPerformed
+
+    private void lBracActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lBracActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "[");
+    }//GEN-LAST:event_lBracActionPerformed
+
+    private void rBracActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBracActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "]");
+    }//GEN-LAST:event_rBracActionPerformed
+
+    private void lCurlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lCurlActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "{");
+    }//GEN-LAST:event_lCurlActionPerformed
+
+    private void sinButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinButActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "s");
+    }//GEN-LAST:event_sinButActionPerformed
+
+    private void cosButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cosButActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "c");
+    }//GEN-LAST:event_cosButActionPerformed
+
+    private void tanButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tanButActionPerformed
+        // TODO add your handling code here:
+        Result.setText(Result.getText()+ "t");
+    }//GEN-LAST:event_tanButActionPerformed
 
     /**
      * @param args the command line arguments
@@ -587,6 +759,13 @@ public class CalcFrame extends javax.swing.JFrame {
     private javax.swing.JButton Num9;
     private javax.swing.JButton RPant;
     private javax.swing.JTextField Result;
+    private javax.swing.JButton cosBut;
+    private javax.swing.JButton lBrac;
+    private javax.swing.JButton lCurl;
+    private javax.swing.JButton rBrac;
+    private javax.swing.JButton rCurl;
+    private javax.swing.JButton sinBut;
+    private javax.swing.JButton tanBut;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -23,57 +23,67 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="Result" alignment="0" min="-2" pref="283" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="LPan" linkSize="1" min="-2" pref="58" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="Num0" linkSize="1" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="Num1" linkSize="1" min="-2" pref="58" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="Num2" linkSize="1" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="Num4" linkSize="1" min="-2" pref="58" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="Num5" linkSize="1" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="Num7" linkSize="1" min="-2" pref="58" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="Num8" linkSize="1" min="-2" pref="58" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+          <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="Result" alignment="2" min="-2" pref="283" max="-2" attributes="0"/>
+                  <Group type="102" alignment="2" attributes="0">
+                      <Component id="lBrac" linkSize="4" min="-2" pref="58" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="Num9" linkSize="1" pref="58" max="32767" attributes="0"/>
-                          <Component id="Num3" linkSize="1" alignment="0" pref="58" max="32767" attributes="0"/>
-                          <Component id="Num6" linkSize="1" pref="0" max="32767" attributes="0"/>
-                          <Component id="RPant" linkSize="1" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="rBrac" linkSize="4" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="AddButt" linkSize="3" max="32767" attributes="0"/>
-                                  <Component id="MultButt" linkSize="3" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="ExpButt" linkSize="3" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="DivideButt" linkSize="3" max="32767" attributes="0"/>
-                                  <Component id="ClearButt" linkSize="3" pref="44" max="32767" attributes="0"/>
-                                  <Component id="MinusButt" linkSize="3" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Component id="EqButt" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="lCurl" linkSize="4" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="rCurl" linkSize="4" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="2" attributes="0">
+                      <Component id="sinBut" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="cosBut" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="tanBut" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="2" attributes="0">
+                      <Component id="Num7" linkSize="1" min="-2" pref="58" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="Num8" linkSize="1" min="-2" pref="58" max="-2" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="Num9" linkSize="1" pref="58" max="32767" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="AddButt" linkSize="3" max="32767" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="MinusButt" linkSize="3" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="2" attributes="0">
+                      <Component id="Num4" linkSize="1" min="-2" pref="58" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="Num5" linkSize="1" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="Num6" linkSize="1" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="MultButt" linkSize="3" max="32767" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="DivideButt" linkSize="3" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="2" attributes="0">
+                      <Component id="Num1" linkSize="1" min="-2" pref="58" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="Num2" linkSize="1" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="Num3" linkSize="1" pref="58" max="32767" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="ExpButt" linkSize="3" max="32767" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="ClearButt" linkSize="3" pref="44" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="2" attributes="0">
+                      <Component id="LPan" linkSize="1" min="-2" pref="58" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="Num0" linkSize="1" max="32767" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="RPant" linkSize="1" max="32767" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      <Component id="EqButt" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -115,6 +125,19 @@
                   <Component id="Num0" linkSize="2" pref="46" max="32767" attributes="0"/>
                   <Component id="RPant" linkSize="2" pref="46" max="32767" attributes="0"/>
                   <Component id="EqButt" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="lBrac" linkSize="5" alignment="2" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="rBrac" linkSize="5" alignment="2" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="lCurl" linkSize="5" alignment="2" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="rCurl" linkSize="5" alignment="2" min="-2" pref="33" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="sinBut" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cosBut" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tanBut" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -293,6 +316,62 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EqButtActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="lBrac">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="["/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lBracActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="rBrac">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="]"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rBracActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="lCurl">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="{"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lCurlActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="rCurl">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="}"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rCurlActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="sinBut">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="sin"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sinButActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="cosBut">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="cos"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cosButActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="tanBut">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="tan"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tanButActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
